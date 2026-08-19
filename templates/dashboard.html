@@ -1,80 +1,84 @@
 {% extends "base.html" %}
 
-{% block title %}
-Dashboard | Accord-HMS
-{% endblock %}
+{% block title %}Dashboard | Accord-HMS{% endblock %}
 
 {% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="mb-4">
+            <h1>Welcome, {{ user.username }}</h1>
+            <p class="text-muted">Manage your profile and hospital appointments from one place.</p>
+        </div>
 
-<div class="container py-5">
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="dashboard-stat">
+                    <span>Total Appointments</span>
+                    <strong>{{ total_appointments }}</strong>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="dashboard-stat">
+                    <span>Pending</span>
+                    <strong>{{ pending_appointments }}</strong>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="dashboard-stat">
+                    <span>Confirmed</span>
+                    <strong>{{ confirmed_appointments }}</strong>
+                </div>
+            </div>
+        </div>
 
-    <div class="mb-4">
-        <h1>Welcome, {{ user.username }}</h1>
-        <p class="text-muted">
-            Welcome to your Accord-HMS dashboard.
-        </p>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <h4>Book Appointment</h4>
+                    <p>Choose an available doctor and schedule your visit.</p>
+                    <a href="{% url 'book_appointment' %}" class="btn btn-primary">Book Now</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <h4>My Profile</h4>
+                    <p>View and update your patient information.</p>
+                    <a href="{% url 'profile' %}" class="btn btn-outline-primary">View Profile</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <h4>My Appointments</h4>
+                    <p>View, track and cancel your appointments.</p>
+                    <a href="{% url 'appointments' %}" class="btn btn-outline-primary">View Appointments</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <h3 class="mb-3">Recent Appointments</h3>
+            {% if recent_appointments %}
+            <div class="table-responsive bg-white rounded-4 shadow-sm p-3">
+                <table class="table align-middle mb-0">
+                    <thead><tr><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+                    <tbody>
+                        {% for appointment in recent_appointments %}
+                        <tr>
+                            <td>Dr. {{ appointment.doctor.name }}</td>
+                            <td>{{ appointment.appointment_date }}</td>
+                            <td>{{ appointment.appointment_time }}</td>
+                            <td>{{ appointment.status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <p class="mb-0">No appointments yet. Explore our doctors to get started.</p>
+            </div>
+            {% endif %}
+        </div>
     </div>
-
-    <div class="row g-4">
-
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        Book Appointment
-                    </h5>
-
-                    <p class="card-text text-muted">
-                        Schedule an appointment with a doctor.
-                    </p>
-
-                    <a href="#" class="btn btn-primary">
-                        Book Appointment
-                    </a>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        My Profile
-                    </h5>
-
-                    <p class="card-text text-muted">
-                        View and manage your profile information.
-                    </p>
-
-                    <a href="#" class="btn btn-outline-primary">
-                        View Profile
-                    </a>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        My Appointments
-                    </h5>
-
-                    <p class="card-text text-muted">
-                        View your upcoming and previous appointments.
-                    </p>
-
-                    <a href="#" class="btn btn-outline-primary">
-                        View Appointments
-                    </a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</div>
-
+</section>
 {% endblock %}

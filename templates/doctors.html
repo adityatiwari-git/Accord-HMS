@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Doctors | Accord-HMS{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="section-title text-center">
+            <h1>Our Doctors</h1>
+            <p>Meet our available doctors and explore their specializations.</p>
+        </div>
+
+        <div class="row g-4">
+            {% for doctor in doctors %}
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card doctor-card">
+                    <div class="doctor-avatar">Dr</div>
+                    <h4>Dr. {{ doctor.name }}</h4>
+                    <p class="mb-1"><strong>{{ doctor.department.name }}</strong></p>
+                    <p class="mb-1">{{ doctor.qualification }}</p>
+                    <p>{{ doctor.experience }} year{{ doctor.experience|pluralize }} of experience</p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'book_doctor' doctor.id %}" class="btn btn-primary">Book Appointment</a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-primary">Login to Book</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No doctors have been added yet. Add doctors from the Django admin panel.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

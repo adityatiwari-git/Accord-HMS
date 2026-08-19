@@ -7,11 +7,10 @@ from django.contrib.auth.decorators import login_required
 
 def register(request):
     if request.method == "POST":
-
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        confirm_password = request.POST.get("confirm_password")
+        username = request.POST.get("username", "").strip()
+        email = request.POST.get("email", "").strip()
+        password = request.POST.get("password", "")
+        confirm_password = request.POST.get("confirm_password", "")
 
         if password != confirm_password:
             messages.error(request, "Passwords do not match.")
@@ -21,17 +20,8 @@ def register(request):
             messages.error(request, "Username already exists.")
             return redirect("register")
 
-        User.objects.create_user(
-            username=username,
-            email=email,
-            password=password
-        )
-
-        messages.success(
-            request,
-            "Account created successfully. Please login."
-        )
-
+        User.objects.create_user(username=username, email=email, password=password)
+        messages.success(request, "Account created successfully. Please login.")
         return redirect("login")
 
     return render(request, "register.html")
@@ -39,15 +29,9 @@ def register(request):
 
 def login_view(request):
     if request.method == "POST":
-
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-
-        user = authenticate(
-            request,
-            username=username,
-            password=password
-        )
+        username = request.POST.get("username", "").strip()
+        password = request.POST.get("password", "")
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
@@ -60,7 +44,8 @@ def login_view(request):
 
 @login_required
 def dashboard(request):
-    return render(request, "dashboard.html")
+    from hospital.views import dashboard as hospital_dashboard
+    return hospital_dashboard(request)
 
 
 @login_required

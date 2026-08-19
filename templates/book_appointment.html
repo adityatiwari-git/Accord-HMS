@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Book Appointment | Accord-HMS{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="section-title text-center">
+            <h1>Book an Appointment</h1>
+            <p>Choose a doctor and select a convenient date and time.</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <div class="form-card">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                            <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary w-100">Confirm Appointment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

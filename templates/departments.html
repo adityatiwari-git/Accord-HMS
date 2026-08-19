@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Departments | Accord-HMS{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="section-title text-center">
+            <h1>Our Departments</h1>
+            <p>Explore the medical departments available at Accord-HMS.</p>
+        </div>
+
+        <div class="row g-4">
+            {% for department in departments %}
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card">
+                    <h4>{{ department.name }}</h4>
+                    <p>{{ department.description }}</p>
+                    <a href="{% url 'doctors' %}" class="btn btn-outline-primary btn-sm">View Doctors</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No departments available at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

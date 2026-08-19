@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Gallery | Accord-HMS{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="section-title text-center">
+            <h1>Hospital Gallery</h1>
+            <p>A glimpse of Accord-HMS and its healthcare environment.</p>
+        </div>
+
+        <div class="row g-4">
+            {% for item in gallery_items %}
+            <div class="col-md-6 col-lg-4">
+                <div class="gallery-card">
+                    {% if item.image_url %}
+                    <img src="{{ item.image_url }}" alt="{{ item.title }}" class="gallery-image">
+                    {% else %}
+                    <div class="gallery-placeholder">Accord-HMS</div>
+                    {% endif %}
+                    <div class="p-3">
+                        <h5>{{ item.title }}</h5>
+                        <p class="mb-0">{{ item.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="empty-state text-center">
+                    <h4>Gallery coming soon</h4>
+                    <p class="text-muted mb-0">Hospital images can be added later through the admin panel.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
