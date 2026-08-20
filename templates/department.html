@@ -1,64 +1,38 @@
 {% extends "base.html" %}
 
-{% block title %}
-Departments | Accord-HMS
-{% endblock %}
+{% block title %}{{ department.name }} | Accord-HMS{% endblock %}
 
 {% block content %}
-
 <section class="py-5">
-
     <div class="container">
-
-        <div class="section-title text-center">
-
-            <h1>
-                Our Departments
-            </h1>
-
-            <p>
-                Explore the departments available at Accord-HMS.
-            </p>
-
+        <div class="text-center mb-5">
+            <h1>{{ department.name }}</h1>
+            <p class="lead">{{ department.description }}</p>
         </div>
 
+        <h3 class="mb-4">Available Doctors</h3>
 
         <div class="row g-4">
-
-            {% for department in departments %}
-
+            {% for doctor in doctors %}
             <div class="col-md-6 col-lg-4">
-
                 <div class="feature-card">
-
-                    <h4>
-                        {{ department.name }}
-                    </h4>
-
-                    <p>
-                        {{ department.description }}
-                    </p>
-
+                    <div class="doctor-avatar">Dr</div>
+                    <h4>Dr. {{ doctor.name }}</h4>
+                    <p class="mb-1">{{ doctor.qualification }}</p>
+                    <p>{{ doctor.experience }} year{{ doctor.experience|pluralize }} of experience</p>
+                    <a href="{% url 'doctor_detail' doctor.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
                 </div>
-
             </div>
-
             {% empty %}
-
-            <div class="col-12 text-center">
-
-                <p class="text-muted">
-                    No departments available at the moment.
-                </p>
-
+            <div class="col-12">
+                <p class="text-muted">No available doctors are listed for this department yet.</p>
             </div>
-
             {% endfor %}
-
         </div>
 
+        <div class="text-center mt-4">
+            <a href="{% url 'departments' %}" class="btn btn-secondary">Back to Departments</a>
+        </div>
     </div>
-
 </section>
-
 {% endblock %}
