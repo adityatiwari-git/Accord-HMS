@@ -55,19 +55,47 @@
             </div>
         </div>
 
+        <div class="row g-4 mt-1">
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <h4>Explore Doctors</h4>
+                    <p>Check doctor qualifications, departments and experience before booking.</p>
+                    <a href="{% url 'doctors' %}" class="btn btn-outline-primary">View Doctors</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="feature-card">
+                    <h4>Hospital Departments</h4>
+                    <p>Explore the departments and services available at Accord-HMS.</p>
+                    <a href="{% url 'departments' %}" class="btn btn-outline-primary">View Departments</a>
+                </div>
+            </div>
+        </div>
+
         <div class="mt-5">
             <h3 class="mb-3">Recent Appointments</h3>
             {% if recent_appointments %}
             <div class="table-responsive bg-white rounded-4 shadow-sm p-3">
                 <table class="table align-middle mb-0">
-                    <thead><tr><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         {% for appointment in recent_appointments %}
                         <tr>
                             <td>Dr. {{ appointment.doctor.name }}</td>
                             <td>{{ appointment.appointment_date }}</td>
                             <td>{{ appointment.appointment_time }}</td>
-                            <td>{{ appointment.status }}</td>
+                            <td>
+                                <span class="badge status-{{ appointment.status|lower }}">
+                                    {{ appointment.status }}
+                                </span>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -75,7 +103,8 @@
             </div>
             {% else %}
             <div class="empty-state">
-                <p class="mb-0">No appointments yet. Explore our doctors to get started.</p>
+                <p class="mb-2">No appointments yet.</p>
+                <a href="{% url 'doctors' %}" class="btn btn-sm btn-outline-primary">Explore Doctors</a>
             </div>
             {% endif %}
         </div>
