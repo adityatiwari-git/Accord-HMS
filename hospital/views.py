@@ -70,11 +70,29 @@ def book_appointment(request, doctor_id=None):
     if request.method == "POST":
         form = AppointmentForm(request.POST)
         if form.is_valid():
-            appointment = form.save(commit=False)
-            appointment.patient = request.user
-            appointment.save()
-            messages.success(request, "Appointment booked successfully.")
-            return redirect("appointments")
+            doctor = form.cleaned_data["doctor"]
+            appointment_date = form.cleaned_data["appointment_date"]
+            appointment_time = form.cleaned_data["appointment_time"]
+
+            already_booked = Appointment.objects.filter(
+                doctor=doctor,
+                appointment_date=appointment_date,
+                appointment_time=appointment_time,
+                status__in=["Pending", "Confirmed"],
+            ).exists()
+
+            if already_booked:
+                form.add_error(
+                    None,
+                    "This doctor already has an appointment at that date and time. "
+                    "Please choose another time.",
+                )
+            else:
+                appointment = form.save(commit=False)
+                appointment.patient = request.user
+                appointment.save()
+                messages.success(request, "Appointment booked successfully.")
+                return redirect("appointments")
     else:
         form = AppointmentForm(initial=initial)
 
