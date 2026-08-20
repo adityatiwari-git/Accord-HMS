@@ -107,7 +107,7 @@ http://127.0.0.1:8000/
 
 ## ⚙️ Adding Hospital Data
 
-Departments and doctors are managed through the Django admin panel.
+Departments and doctors can be managed through the Django admin panel.
 
 Open:
 
@@ -125,6 +125,18 @@ Recommended demo departments:
 - Dermatology
 
 After creating departments, add doctors and assign each doctor to a department. Keep **Available** enabled for doctors who should appear on the public booking pages.
+
+### Quick Demo Data
+
+For a presentation or local demonstration, the project includes a simple management command that creates sample departments, doctors, seven demo patients, a sample appointment and gallery entries.
+
+Run:
+
+```bash
+python manage.py seed_demo
+```
+
+The command is safe to run more than once because it avoids creating duplicate demo records. Demo patients use the same presentation password printed by the command after it finishes.
 
 ### Gallery
 
@@ -193,9 +205,8 @@ The main Accord-HMS workflow is complete for the academic project:
 - Contact messages are stored in the database.
 - Gallery entries can be managed through admin.
 - Hospital data can be managed through Django admin.
+- Demo data can be generated with one management command.
 - Basic automated tests are included.
-
-The gallery can remain empty until final presentation data and images are added.
 
 ## 👨‍💻 Author
 
