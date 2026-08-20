@@ -1,10 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.models import User
 
-from .forms import AppointmentForm, ProfileForm
-from .models import Appointment, ContactMessage, Department, Doctor, Gallery, Profile
+from .forms import AppointmentForm, ContactForm, ProfileForm
+from .models import Appointment, Department, Doctor, Gallery, Profile
 
 
 def home(request):
@@ -16,13 +15,32 @@ def about(request):
 
 
 def departments(request):
-    departments = Department.objects.all()
-    return render(request, "departments.html", {"departments": departments})
+    department_list = Department.objects.all().order_by("name")
+    return render(request, "departments.html", {"departments": department_list})
+
+
+def department_detail(request, department_id):
+    department = get_object_or_404(Department, pk=department_id)
+    doctors_list = department.doctors.filter(available=True).order_by("name")
+    return render(
+        request,
+        "department.html",
+        {"department": department, "doctors": doctors_list},
+    )
 
 
 def doctors(request):
     doctors_list = Doctor.objects.select_related("department").filter(available=True)
     return render(request, "doctors.html", {"doctors": doctors_list})
+
+
+def doctor_detail(request, doctor_id):
+    doctor = get_object_or_404(
+        Doctor.objects.select_related("department"),
+        pk=doctor_id,
+        available=True,
+    )
+    return render(request, "doctor.html", {"doctor": doctor})
 
 
 def gallery(request):
@@ -32,15 +50,15 @@ def gallery(request):
 
 def contact(request):
     if request.method == "POST":
-        ContactMessage.objects.create(
-            name=request.POST.get("name", "").strip(),
-            email=request.POST.get("email", "").strip(),
-            subject=request.POST.get("subject", "").strip(),
-            message=request.POST.get("message", "").strip(),
-        )
-        messages.success(request, "Your message has been sent successfully.")
-        return redirect("contact")
-    return render(request, "contact.html")
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your message has been sent successfully.")
+            return redirect("contact")
+    else:
+        form = ContactForm()
+
+    return render(request, "contact.html", {"form": form})
 
 
 @login_required
@@ -65,13 +83,18 @@ def book_appointment(request, doctor_id=None):
 
 @login_required
 def appointments(request):
-    appointment_list = Appointment.objects.filter(patient=request.user).select_related("doctor", "doctor__department")
+    appointment_list = (
+        Appointment.objects.filter(patient=request.user)
+        .select_related("doctor", "doctor__department")
+    )
     return render(request, "appointments.html", {"appointments": appointment_list})
 
 
 @login_required
 def cancel_appointment(request, appointment_id):
-    appointment = get_object_or_404(Appointment, pk=appointment_id, patient=request.user)
+    appointment = get_object_or_404(
+        Appointment, pk=appointment_id, patient=request.user
+    )
     if request.method == "POST" and appointment.status not in ["Completed", "Cancelled"]:
         appointment.status = "Cancelled"
         appointment.save(update_fields=["status"])
