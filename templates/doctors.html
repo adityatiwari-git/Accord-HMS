@@ -6,31 +6,35 @@
 <section class="py-5">
     <div class="container">
         <div class="section-title text-center">
-            <h1>Our Doctors</h1>
-            <p>Meet our available doctors and explore their specializations.</p>
+            <p class="hero-subtitle mb-2">OUR MEDICAL TEAM</p>
+            <h1>Meet our doctors</h1>
+            <p>Explore qualifications, experience and speciality before choosing your appointment.</p>
         </div>
 
         <div class="row g-4">
             {% for doctor in doctors %}
+            {% cycle 'doctor-photo-1' 'doctor-photo-2' 'doctor-photo-3' as doctor_photo %}
             <div class="col-md-6 col-lg-4">
                 <div class="feature-card doctor-card">
-                    <div class="doctor-avatar">Dr</div>
-                    <h4>Dr. {{ doctor.name }}</h4>
-                    <p class="mb-1"><strong>{{ doctor.department.name }}</strong></p>
-                    <p class="mb-1">{{ doctor.qualification }}</p>
-                    <p>{{ doctor.experience }} year{{ doctor.experience|pluralize }} of experience</p>
-                    <a href="{% url 'doctor_detail' doctor.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
-                    {% if user.is_authenticated %}
-                    <a href="{% url 'book_doctor' doctor.id %}" class="btn btn-primary btn-sm">Book Appointment</a>
-                    {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-primary btn-sm">Login to Book</a>
-                    {% endif %}
+                    <div class="doctor-photo {{ doctor_photo }}"></div>
+                    <div class="doctor-card-body pt-4">
+                        <span class="badge bg-light text-primary mb-2">{{ doctor.department.name }}</span>
+                        <h4 class="mb-1">Dr. {{ doctor.name }}</h4>
+                        <p class="mb-1">{{ doctor.qualification }}</p>
+                        <p class="small text-muted mb-3">{{ doctor.experience }} year{{ doctor.experience|pluralize }} of experience</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="{% url 'doctor_detail' doctor.id %}" class="btn btn-outline-primary btn-sm">View Profile</a>
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'book_doctor' doctor.id %}" class="btn btn-primary btn-sm">Book Appointment</a>
+                            {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-primary btn-sm">Login to Book</a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
             {% empty %}
-            <div class="col-12 text-center">
-                <p class="text-muted">No doctors have been added yet. Add doctors from the Django admin panel.</p>
-            </div>
+            <div class="col-12 text-center"><div class="empty-state"><p class="text-muted mb-0">No doctors have been added yet. Add doctors from the Django admin panel.</p></div></div>
             {% endfor %}
         </div>
     </div>
