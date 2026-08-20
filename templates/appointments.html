@@ -5,13 +5,17 @@
 {% block content %}
 <section class="py-5">
     <div class="container">
-        <div class="section-title">
-            <h1>My Appointments</h1>
-            <p>Track your upcoming and previous appointments.</p>
+        <div class="section-title d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3">
+            <div>
+                <span class="text-primary fw-semibold small">PATIENT PORTAL</span>
+                <h1 class="mt-1 mb-2">My Appointments</h1>
+                <p class="mb-0">Track your upcoming and previous appointments in one place.</p>
+            </div>
+            <a href="{% url 'book_appointment' %}" class="btn btn-primary">Book New Appointment</a>
         </div>
 
-        <div class="table-responsive bg-white rounded-4 shadow-sm p-3">
-            <table class="table align-middle mb-0">
+        <div class="table-wrap table-responsive">
+            <table class="table align-middle">
                 <thead>
                     <tr>
                         <th>Doctor</th>
@@ -25,7 +29,7 @@
                 <tbody>
                     {% for appointment in appointments %}
                     <tr>
-                        <td>Dr. {{ appointment.doctor.name }}</td>
+                        <td class="fw-semibold">Dr. {{ appointment.doctor.name }}</td>
                         <td>{{ appointment.doctor.department.name }}</td>
                         <td>{{ appointment.appointment_date }}</td>
                         <td>{{ appointment.appointment_time }}</td>
@@ -40,7 +44,7 @@
                         </td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="6" class="text-center text-muted py-4">You have no appointments yet.</td></tr>
+                    <tr><td colspan="6" class="text-center text-muted py-5">You have no appointments yet.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
