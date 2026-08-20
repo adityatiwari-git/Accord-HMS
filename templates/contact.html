@@ -15,22 +15,31 @@
                 <div class="form-card">
                     <form method="post">
                         {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                        {% endif %}
+
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">Name</label>
-                                <input type="text" name="name" class="form-control" required>
+                                {{ form.name }}
+                                {{ form.name.errors }}
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Email</label>
-                                <input type="email" name="email" class="form-control" required>
+                                {{ form.email }}
+                                {{ form.email.errors }}
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Subject</label>
-                                <input type="text" name="subject" class="form-control" required>
+                                {{ form.subject }}
+                                {{ form.subject.errors }}
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Message</label>
-                                <textarea name="message" rows="5" class="form-control" required></textarea>
+                                {{ form.message }}
+                                {{ form.message.errors }}
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary">Send Message</button>
