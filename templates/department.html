@@ -3,35 +3,36 @@
 {% block title %}{{ department.name }} | Accord-HMS{% endblock %}
 
 {% block content %}
+<section class="page-hero compact-hero">
+    <div class="container">
+        <span class="eyebrow">SPECIALIST CARE</span>
+        <h1>{{ department.name }}</h1>
+        <p>{{ department.description }}</p>
+    </div>
+</section>
+
 <section class="py-5">
     <div class="container">
-        <div class="text-center mb-5">
-            <h1>{{ department.name }}</h1>
-            <p class="lead">{{ department.description }}</p>
+        <div class="section-heading-row">
+            <div><span class="eyebrow">OUR SPECIALISTS</span><h2>Doctors in {{ department.name }}</h2></div>
+            <a href="{% url 'departments' %}" class="btn btn-outline-primary">All Departments</a>
         </div>
-
-        <h3 class="mb-4">Available Doctors</h3>
 
         <div class="row g-4">
             {% for doctor in doctors %}
             <div class="col-md-6 col-lg-4">
-                <div class="feature-card">
-                    <div class="doctor-avatar">Dr</div>
-                    <h4>Dr. {{ doctor.name }}</h4>
-                    <p class="mb-1">{{ doctor.qualification }}</p>
-                    <p>{{ doctor.experience }} year{{ doctor.experience|pluralize }} of experience</p>
-                    <a href="{% url 'doctor_detail' doctor.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
-                </div>
+                <article class="mini-doctor-card">
+                    <div class="mini-avatar">DR</div>
+                    <span class="specialty-pill">{{ department.name }}</span>
+                    <h3>Dr. {{ doctor.name }}</h3>
+                    <p>{{ doctor.qualification }}</p>
+                    <span class="small text-muted">{{ doctor.experience }} year{{ doctor.experience|pluralize }} experience</span>
+                    <a href="{% url 'doctor_detail' doctor.id %}" class="card-link mt-3">View Profile <span>→</span></a>
+                </article>
             </div>
             {% empty %}
-            <div class="col-12">
-                <p class="text-muted">No available doctors are listed for this department yet.</p>
-            </div>
+            <div class="col-12"><div class="empty-state text-center"><h4>No doctors available</h4><p class="text-muted mb-0">Doctors for this department can be added through the admin panel.</p></div></div>
             {% endfor %}
-        </div>
-
-        <div class="text-center mt-4">
-            <a href="{% url 'departments' %}" class="btn btn-secondary">Back to Departments</a>
         </div>
     </div>
 </section>
