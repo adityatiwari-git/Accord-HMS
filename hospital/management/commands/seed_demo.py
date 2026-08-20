@@ -3,7 +3,7 @@ from datetime import date, timedelta
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 
-from hospital.models import Appointment, ContactMessage, Department, Doctor, Gallery, Profile
+from hospital.models import Appointment, Department, Doctor, Gallery, Profile
 
 
 class Command(BaseCommand):
