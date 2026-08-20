@@ -5,24 +5,30 @@
 {% block content %}
 <section class="hero-section">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-7">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7">
                 <p class="hero-subtitle">WELCOME TO ACCORD-HMS</p>
-                <h1 class="hero-title">Healthcare made <span>simpler.</span></h1>
-                <p class="hero-text">Find the right doctor, explore hospital departments, and book your appointment through one simple platform.</p>
-                <div class="mt-4">
+                <h1 class="hero-title">Healthcare that feels <span>simpler.</span></h1>
+                <p class="hero-text mt-4">Find trusted doctors, explore hospital departments and manage appointments through one clear and friendly platform.</p>
+                <div class="mt-4 d-flex flex-wrap gap-2">
                     {% if user.is_authenticated %}
-                    <a href="{% url 'book_appointment' %}" class="btn btn-primary btn-lg me-2">Book an Appointment</a>
+                    <a href="{% url 'book_appointment' %}" class="btn btn-primary btn-lg">Book an Appointment</a>
                     {% else %}
-                    <a href="{% url 'login' %}?next={% url 'book_appointment' %}" class="btn btn-primary btn-lg me-2">Book an Appointment</a>
+                    <a href="{% url 'login' %}?next={% url 'book_appointment' %}" class="btn btn-primary btn-lg">Book an Appointment</a>
                     {% endif %}
-                    <a href="{% url 'doctors' %}" class="btn btn-outline-primary btn-lg">Explore Doctors</a>
+                    <a href="{% url 'doctors' %}" class="btn btn-outline-primary btn-lg">Meet Our Doctors</a>
+                </div>
+                <div class="d-flex gap-4 mt-4 small text-muted">
+                    <span>✓ Easy booking</span><span>✓ Doctor information</span><span>✓ Patient dashboard</span>
                 </div>
             </div>
-            <div class="col-md-5 text-center mt-4 mt-md-0">
+            <div class="col-lg-5">
                 <div class="hero-card">
-                    <h4>Quality Healthcare</h4>
-                    <p>Connecting patients with the information and services they need.</p>
+                    <div>
+                        <span class="badge bg-light text-dark mb-3">Patient-first care</span>
+                        <h4>Quality healthcare, one place.</h4>
+                        <p>Explore services and connect with the right department without the usual confusion.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,33 +38,30 @@
 <section class="py-5">
     <div class="container">
         <div class="section-title text-center">
-            <h2>Why Choose Accord-HMS?</h2>
-            <p>Making hospital information and appointment management simpler.</p>
+            <p class="hero-subtitle mb-2">WHY ACCORD-HMS</p>
+            <h2>Everything you need to get started</h2>
+            <p>Simple features designed around a patient's everyday hospital journey.</p>
         </div>
         <div class="row g-4">
-            <div class="col-md-4">
-                <div class="feature-card text-center">
-                    <h4>Easy Appointments</h4>
-                    <p>Book and manage hospital appointments through a simple online process.</p>
-                    {% if user.is_authenticated %}
-                    <a href="{% url 'book_appointment' %}" class="btn btn-sm btn-outline-primary">Book Now</a>
-                    {% else %}
-                    <a href="{% url 'login' %}?next={% url 'book_appointment' %}" class="btn btn-sm btn-outline-primary">Book Now</a>
-                    {% endif %}
-                </div>
+            <div class="col-md-4"><div class="feature-card"><div class="doctor-avatar">01</div><h4>Easy Appointments</h4><p>Choose a doctor, select a suitable date and time, and keep track of your appointments.</p>{% if user.is_authenticated %}<a href="{% url 'book_appointment' %}" class="btn btn-sm btn-outline-primary">Book Now</a>{% else %}<a href="{% url 'login' %}?next={% url 'book_appointment' %}" class="btn btn-sm btn-outline-primary">Get Started</a>{% endif %}</div></div>
+            <div class="col-md-4"><div class="feature-card"><div class="doctor-avatar">02</div><h4>Qualified Doctors</h4><p>Browse doctor profiles, qualifications, experience and departments before booking.</p><a href="{% url 'doctors' %}" class="btn btn-sm btn-outline-primary">Meet Doctors</a></div></div>
+            <div class="col-md-4"><div class="feature-card"><div class="doctor-avatar">03</div><h4>Clear Departments</h4><p>Explore hospital departments and quickly understand where each speciality fits.</p><a href="{% url 'departments' %}" class="btn btn-sm btn-outline-primary">Explore Departments</a></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <p class="hero-subtitle">A MODERN APPROACH</p>
+                <h2 class="fw-bold" style="color:var(--navy)">Built to make hospital information easier to understand.</h2>
+                <p class="text-muted">Accord-HMS brings doctors, departments, appointments and patient information together in one approachable interface.</p>
+                <a href="{% url 'about' %}" class="btn btn-primary">Learn About Accord-HMS</a>
             </div>
-            <div class="col-md-4">
-                <div class="feature-card text-center">
-                    <h4>Qualified Doctors</h4>
-                    <p>Explore doctors and their specializations before choosing an appointment.</p>
-                    <a href="{% url 'doctors' %}" class="btn btn-sm btn-outline-primary">Meet Doctors</a>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card text-center">
-                    <h4>Hospital Departments</h4>
-                    <p>Explore departments and understand the services available at the hospital.</p>
-                    <a href="{% url 'departments' %}" class="btn btn-sm btn-outline-primary">Explore Departments</a>
+            <div class="col-lg-6">
+                <div class="feature-card p-0 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1000&q=85" alt="Healthcare professionals" class="w-100" style="height:300px;object-fit:cover;">
                 </div>
             </div>
         </div>
