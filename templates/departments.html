@@ -16,7 +16,7 @@
                 <div class="feature-card">
                     <h4>{{ department.name }}</h4>
                     <p>{{ department.description }}</p>
-                    <a href="{% url 'doctors' %}" class="btn btn-outline-primary btn-sm">View Doctors</a>
+                    <a href="{% url 'department_detail' department.id %}" class="btn btn-outline-primary btn-sm">View Department</a>
                 </div>
             </div>
             {% empty %}
