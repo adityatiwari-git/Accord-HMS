@@ -19,10 +19,11 @@
                     <p class="mb-1"><strong>{{ doctor.department.name }}</strong></p>
                     <p class="mb-1">{{ doctor.qualification }}</p>
                     <p>{{ doctor.experience }} year{{ doctor.experience|pluralize }} of experience</p>
+                    <a href="{% url 'doctor_detail' doctor.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
                     {% if user.is_authenticated %}
-                    <a href="{% url 'book_doctor' doctor.id %}" class="btn btn-primary">Book Appointment</a>
+                    <a href="{% url 'book_doctor' doctor.id %}" class="btn btn-primary btn-sm">Book Appointment</a>
                     {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-outline-primary">Login to Book</a>
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-sm">Login to Book</a>
                     {% endif %}
                 </div>
             </div>
