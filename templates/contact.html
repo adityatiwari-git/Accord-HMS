@@ -3,47 +3,39 @@
 {% block title %}Contact | Accord-HMS{% endblock %}
 
 {% block content %}
+<section class="page-hero compact-hero">
+    <div class="container">
+        <span class="eyebrow">GET IN TOUCH</span>
+        <h1>How can we help?</h1>
+        <p>Send us a message and the Accord-HMS team can follow up with you.</p>
+    </div>
+</section>
+
 <section class="py-5">
     <div class="container">
-        <div class="section-title text-center">
-            <h1>Contact Us</h1>
-            <p>Have a question? Send a message to the Accord-HMS team.</p>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="form-card">
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-4">
+                <div class="contact-info-card">
+                    <span class="eyebrow">ACCORD-HMS</span>
+                    <h2>Let's talk about your care.</h2>
+                    <p>Use the form to send an enquiry about appointments, doctors, departments or hospital services.</p>
+                    <div class="contact-item"><span>01</span><div><strong>Appointments</strong><p>Ask about booking and visit information.</p></div></div>
+                    <div class="contact-item"><span>02</span><div><strong>Hospital services</strong><p>Learn more about departments and doctors.</p></div></div>
+                    <div class="contact-item"><span>03</span><div><strong>General enquiry</strong><p>Send us any other message or question.</p></div></div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="form-card polished-form-card">
+                    <div class="form-card-heading"><span class="eyebrow">CONTACT FORM</span><h2>Send a message</h2></div>
                     <form method="post">
                         {% csrf_token %}
-
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
-                        {% endif %}
-
+                        {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors|striptags }}</div>{% endif %}
                         <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Name</label>
-                                {{ form.name }}
-                                {{ form.name.errors }}
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Email</label>
-                                {{ form.email }}
-                                {{ form.email.errors }}
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">Subject</label>
-                                {{ form.subject }}
-                                {{ form.subject.errors }}
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">Message</label>
-                                {{ form.message }}
-                                {{ form.message.errors }}
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary">Send Message</button>
-                            </div>
+                            <div class="col-md-6"><label class="form-label">Name</label>{{ form.name }}{{ form.name.errors }}</div>
+                            <div class="col-md-6"><label class="form-label">Email</label>{{ form.email }}{{ form.email.errors }}</div>
+                            <div class="col-12"><label class="form-label">Subject</label>{{ form.subject }}{{ form.subject.errors }}</div>
+                            <div class="col-12"><label class="form-label">Message</label>{{ form.message }}{{ form.message.errors }}</div>
+                            <div class="col-12"><button type="submit" class="btn btn-primary btn-lg">Send Message</button></div>
                         </div>
                     </form>
                 </div>
