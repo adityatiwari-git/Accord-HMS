@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
+from hospital.models import Appointment
+
 
 def register(request):
     if request.method == "POST":
@@ -56,8 +58,16 @@ def login_view(request):
 
 @login_required
 def dashboard(request):
-    from hospital.views import dashboard as hospital_dashboard
-    return hospital_dashboard(request)
+    appointments = Appointment.objects.filter(patient=request.user).select_related("doctor")
+
+    context = {
+        "total_appointments": appointments.count(),
+        "pending_appointments": appointments.filter(status="Pending").count(),
+        "confirmed_appointments": appointments.filter(status="Confirmed").count(),
+        "recent_appointments": appointments[:5],
+    }
+
+    return render(request, "dashboard.html", context)
 
 
 @login_required
