@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django import forms
 from django.utils import timezone
 
@@ -21,9 +19,7 @@ class AppointmentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["doctor"].queryset = (
-            self.fields["doctor"].queryset
-            .filter(available=True)
-            .order_by("name")
+            self.fields["doctor"].queryset.filter(available=True).order_by("name")
         )
 
     def clean(self):
@@ -35,19 +31,15 @@ class AppointmentForm(forms.ModelForm):
         if doctor and not doctor.available:
             self.add_error("doctor", "This doctor is currently unavailable.")
 
-        if appointment_date and appointment_date < timezone.localdate():
+        today = timezone.localdate()
+
+        if appointment_date and appointment_date < today:
             self.add_error("appointment_date", "Please choose today or a future date.")
 
-        if appointment_date and appointment_time:
-            appointment_datetime = datetime.combine(
-                appointment_date, appointment_time
-            )
-            appointment_datetime = timezone.make_aware(
-                appointment_datetime,
-                timezone.get_current_timezone(),
-            )
-
-            if appointment_datetime <= timezone.now():
+        # If the user selects today, the time must also be in the future.
+        if appointment_date == today and appointment_time:
+            current_time = timezone.localtime().time().replace(tzinfo=None)
+            if appointment_time <= current_time:
                 self.add_error("appointment_time", "Please choose a future time.")
 
         return cleaned_data
