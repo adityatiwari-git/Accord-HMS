@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.shortcuts import redirect, render
 
 
 def register(request):
@@ -11,6 +11,14 @@ def register(request):
         email = request.POST.get("email", "").strip()
         password = request.POST.get("password", "")
         confirm_password = request.POST.get("confirm_password", "")
+
+        if not username:
+            messages.error(request, "Username is required.")
+            return redirect("register")
+
+        if len(password) < 8:
+            messages.error(request, "Password must contain at least 8 characters.")
+            return redirect("register")
 
         if password != confirm_password:
             messages.error(request, "Passwords do not match.")
@@ -28,6 +36,8 @@ def register(request):
 
 
 def login_view(request):
+    next_url = request.POST.get("next") or request.GET.get("next")
+
     if request.method == "POST":
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "")
@@ -35,11 +45,13 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
+            if next_url and next_url.startswith("/") and not next_url.startswith("//"):
+                return redirect(next_url)
             return redirect("dashboard")
 
         messages.error(request, "Invalid username or password.")
 
-    return render(request, "login.html")
+    return render(request, "login.html", {"next": next_url})
 
 
 @login_required
