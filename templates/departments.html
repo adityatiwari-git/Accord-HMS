@@ -3,25 +3,33 @@
 {% block title %}Departments | Accord-HMS{% endblock %}
 
 {% block content %}
+<section class="page-hero">
+    <div class="container">
+        <span class="eyebrow">MEDICAL SERVICES</span>
+        <h1>Our Departments</h1>
+        <p>Explore specialist care areas and find the right department for your healthcare needs.</p>
+    </div>
+</section>
+
 <section class="py-5">
     <div class="container">
-        <div class="section-title text-center">
-            <h1>Our Departments</h1>
-            <p>Explore the medical departments available at Accord-HMS.</p>
-        </div>
-
         <div class="row g-4">
             {% for department in departments %}
             <div class="col-md-6 col-lg-4">
-                <div class="feature-card">
-                    <h4>{{ department.name }}</h4>
+                <article class="service-card">
+                    <div class="service-icon">+</div>
+                    <span class="service-label">ACCORD HEALTHCARE</span>
+                    <h3>{{ department.name }}</h3>
                     <p>{{ department.description }}</p>
-                    <a href="{% url 'department_detail' department.id %}" class="btn btn-outline-primary btn-sm">View Department</a>
-                </div>
+                    <a href="{% url 'department_detail' department.id %}" class="card-link">Explore Department <span>→</span></a>
+                </article>
             </div>
             {% empty %}
-            <div class="col-12 text-center">
-                <p class="text-muted">No departments available at the moment.</p>
+            <div class="col-12">
+                <div class="empty-state text-center">
+                    <h4>Departments coming soon</h4>
+                    <p class="text-muted mb-0">Add departments from the Django admin panel.</p>
+                </div>
             </div>
             {% endfor %}
         </div>
