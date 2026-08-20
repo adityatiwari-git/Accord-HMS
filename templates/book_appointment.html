@@ -15,6 +15,13 @@
                 <div class="form-card">
                     <form method="post">
                         {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors|striptags }}
+                        </div>
+                        {% endif %}
+
                         {% for field in form %}
                         <div class="mb-3">
                             <label class="form-label">{{ field.label }}</label>
@@ -24,6 +31,7 @@
                             {% endif %}
                         </div>
                         {% endfor %}
+
                         <button type="submit" class="btn btn-primary w-100">Confirm Appointment</button>
                     </form>
                 </div>
