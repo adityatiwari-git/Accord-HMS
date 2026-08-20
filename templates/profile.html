@@ -3,30 +3,36 @@
 {% block title %}My Profile | Accord-HMS{% endblock %}
 
 {% block content %}
+<section class="page-hero compact-hero">
+    <div class="container">
+        <span class="eyebrow">PATIENT PORTAL</span>
+        <h1>My Profile</h1>
+        <p>Keep your personal and contact information up to date.</p>
+    </div>
+</section>
+
 <section class="py-5">
     <div class="container">
-        <div class="section-title text-center">
-            <h1>My Profile</h1>
-            <p>Keep your patient information up to date.</p>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="col-md-7">
-                <div class="form-card">
-                    <div class="profile-summary mb-4">
-                        <h5>{{ user.username }}</h5>
-                        <p class="text-muted mb-0">{{ user.email }}</p>
-                    </div>
-
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-4">
+                <div class="profile-panel">
+                    <div class="profile-avatar large">{{ user.username|first|upper }}</div>
+                    <span class="eyebrow">PATIENT ACCOUNT</span>
+                    <h2>{{ user.username }}</h2>
+                    <p>{{ user.email }}</p>
+                    <div class="profile-note">Your profile helps Accord-HMS keep your appointment information organized.</div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="form-card polished-form-card">
+                    <div class="form-card-heading"><span class="eyebrow">PERSONAL DETAILS</span><h2>Update your information</h2></div>
                     <form method="post">
                         {% csrf_token %}
                         {% for field in form %}
                         <div class="mb-3">
                             <label class="form-label">{{ field.label }}</label>
                             {{ field }}
-                            {% if field.errors %}
-                            <div class="text-danger small">{{ field.errors|striptags }}</div>
-                            {% endif %}
+                            {% if field.errors %}<div class="text-danger small mt-1">{{ field.errors|striptags }}</div>{% endif %}
                         </div>
                         {% endfor %}
                         <button type="submit" class="btn btn-primary">Save Profile</button>
