@@ -14,7 +14,7 @@
                     {% if user.is_authenticated %}
                     <a href="{% url 'book_appointment' %}" class="btn btn-primary btn-lg me-2">Book an Appointment</a>
                     {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-2">Book an Appointment</a>
+                    <a href="{% url 'login' %}?next={% url 'book_appointment' %}" class="btn btn-primary btn-lg me-2">Book an Appointment</a>
                     {% endif %}
                     <a href="{% url 'doctors' %}" class="btn btn-outline-primary btn-lg">Explore Doctors</a>
                 </div>
@@ -36,9 +36,31 @@
             <p>Making hospital information and appointment management simpler.</p>
         </div>
         <div class="row g-4">
-            <div class="col-md-4"><div class="feature-card text-center"><h4>Easy Appointments</h4><p>Book and manage hospital appointments through a simple online process.</p><a href="{% url 'book_appointment' %}" class="btn btn-sm btn-outline-primary">Book Now</a></div></div>
-            <div class="col-md-4"><div class="feature-card text-center"><h4>Qualified Doctors</h4><p>Explore doctors and their specializations before choosing an appointment.</p><a href="{% url 'doctors' %}" class="btn btn-sm btn-outline-primary">Meet Doctors</a></div></div>
-            <div class="col-md-4"><div class="feature-card text-center"><h4>Hospital Departments</h4><p>Explore departments and understand the services available at the hospital.</p><a href="{% url 'departments' %}" class="btn btn-sm btn-outline-primary">Explore Departments</a></div></div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <h4>Easy Appointments</h4>
+                    <p>Book and manage hospital appointments through a simple online process.</p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'book_appointment' %}" class="btn btn-sm btn-outline-primary">Book Now</a>
+                    {% else %}
+                    <a href="{% url 'login' %}?next={% url 'book_appointment' %}" class="btn btn-sm btn-outline-primary">Book Now</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <h4>Qualified Doctors</h4>
+                    <p>Explore doctors and their specializations before choosing an appointment.</p>
+                    <a href="{% url 'doctors' %}" class="btn btn-sm btn-outline-primary">Meet Doctors</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <h4>Hospital Departments</h4>
+                    <p>Explore departments and understand the services available at the hospital.</p>
+                    <a href="{% url 'departments' %}" class="btn btn-sm btn-outline-primary">Explore Departments</a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
