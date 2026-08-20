@@ -18,12 +18,14 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() == "true"
 
-# Vercel provides the deployment hostname through VERCEL_URL.
-# Local development continues to work with an empty/default host list.
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 vercel_url = os.environ.get("VERCEL_URL")
 if vercel_url:
     ALLOWED_HOSTS.append(vercel_url)
+
+CSRF_TRUSTED_ORIGINS = []
+if vercel_url:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{vercel_url}")
 
 
 INSTALLED_APPS = [
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
