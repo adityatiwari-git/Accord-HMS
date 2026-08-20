@@ -113,16 +113,19 @@ def cancel_appointment(request, appointment_id):
     appointment = get_object_or_404(
         Appointment, pk=appointment_id, patient=request.user
     )
+
     if request.method == "POST" and appointment.status not in ["Completed", "Cancelled"]:
         appointment.status = "Cancelled"
         appointment.save(update_fields=["status"])
         messages.success(request, "Appointment cancelled.")
+
     return redirect("appointments")
 
 
 @login_required
 def profile(request):
     profile_obj, created = Profile.objects.get_or_create(user=request.user)
+
     if request.method == "POST":
         form = ProfileForm(request.POST, instance=profile_obj)
         if form.is_valid():
@@ -131,16 +134,5 @@ def profile(request):
             return redirect("profile")
     else:
         form = ProfileForm(instance=profile_obj)
+
     return render(request, "profile.html", {"form": form})
-
-
-@login_required
-def dashboard(request):
-    appointment_list = Appointment.objects.filter(patient=request.user).select_related("doctor")
-    context = {
-        "total_appointments": appointment_list.count(),
-        "pending_appointments": appointment_list.filter(status="Pending").count(),
-        "confirmed_appointments": appointment_list.filter(status="Confirmed").count(),
-        "recent_appointments": appointment_list[:5],
-    }
-    return render(request, "dashboard.html", context)
