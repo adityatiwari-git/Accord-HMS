@@ -1,6 +1,7 @@
-from datetime import date
+from datetime import datetime
 
 from django import forms
+from django.utils import timezone
 
 from .models import Appointment, ContactMessage, Profile
 
@@ -29,12 +30,25 @@ class AppointmentForm(forms.ModelForm):
         cleaned_data = super().clean()
         doctor = cleaned_data.get("doctor")
         appointment_date = cleaned_data.get("appointment_date")
+        appointment_time = cleaned_data.get("appointment_time")
 
         if doctor and not doctor.available:
             self.add_error("doctor", "This doctor is currently unavailable.")
 
-        if appointment_date and appointment_date < date.today():
+        if appointment_date and appointment_date < timezone.localdate():
             self.add_error("appointment_date", "Please choose today or a future date.")
+
+        if appointment_date and appointment_time:
+            appointment_datetime = datetime.combine(
+                appointment_date, appointment_time
+            )
+            appointment_datetime = timezone.make_aware(
+                appointment_datetime,
+                timezone.get_current_timezone(),
+            )
+
+            if appointment_datetime <= timezone.now():
+                self.add_error("appointment_time", "Please choose a future time.")
 
         return cleaned_data
 
