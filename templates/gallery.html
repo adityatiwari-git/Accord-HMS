@@ -3,33 +3,37 @@
 {% block title %}Gallery | Accord-HMS{% endblock %}
 
 {% block content %}
+<section class="page-hero">
+    <div class="container">
+        <span class="eyebrow">OUR FACILITY</span>
+        <h1>Hospital Gallery</h1>
+        <p>A glimpse of the people, spaces and healthcare environment behind Accord-HMS.</p>
+    </div>
+</section>
+
 <section class="py-5">
     <div class="container">
-        <div class="section-title text-center">
-            <h1>Hospital Gallery</h1>
-            <p>A glimpse of Accord-HMS and its healthcare environment.</p>
-        </div>
-
         <div class="row g-4">
             {% for item in gallery_items %}
             <div class="col-md-6 col-lg-4">
-                <div class="gallery-card">
+                <article class="gallery-card gallery-card-polished">
                     {% if item.image_url %}
                     <img src="{{ item.image_url }}" alt="{{ item.title }}" class="gallery-image">
                     {% else %}
-                    <div class="gallery-placeholder">Accord-HMS</div>
+                    <div class="gallery-placeholder"><span>ACCORD-HMS</span></div>
                     {% endif %}
-                    <div class="p-3">
-                        <h5>{{ item.title }}</h5>
-                        <p class="mb-0">{{ item.description }}</p>
+                    <div class="gallery-caption">
+                        <span class="eyebrow">ACCORD HEALTHCARE</span>
+                        <h3>{{ item.title }}</h3>
+                        <p>{{ item.description }}</p>
                     </div>
-                </div>
+                </article>
             </div>
             {% empty %}
             <div class="col-12">
-                <div class="empty-state text-center">
-                    <h4>Gallery coming soon</h4>
-                    <p class="text-muted mb-0">Hospital images can be added later through the admin panel.</p>
+                <div class="gallery-empty">
+                    <div class="gallery-empty-image"></div>
+                    <div><span class="eyebrow">COMING SOON</span><h2>Our hospital gallery</h2><p>Images can be added later through the Django admin panel.</p></div>
                 </div>
             </div>
             {% endfor %}
