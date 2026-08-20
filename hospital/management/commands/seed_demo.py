@@ -10,6 +10,8 @@ class Command(BaseCommand):
     help = "Create simple demo data for Accord-HMS."
 
     def handle(self, *args, **options):
+        demo_password = "Demo@1234"
+
         departments = {
             "Cardiology": "Diagnosis and treatment of heart and cardiovascular conditions.",
             "Neurology": "Care for disorders related to the brain and nervous system.",
@@ -63,8 +65,9 @@ class Command(BaseCommand):
                 username=username,
                 defaults={"email": email},
             )
+
             if created:
-                user.set_password("Demo@1234")
+                user.set_password(demo_password)
                 user.save()
 
             Profile.objects.update_or_create(
@@ -77,9 +80,21 @@ class Command(BaseCommand):
             )
 
         gallery_items = [
-            ("Modern Hospital", "A welcoming hospital environment.", "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1200&q=80"),
-            ("Medical Consultation", "A doctor consulting with a patient.", "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80"),
-            ("Healthcare Team", "Healthcare professionals working together.", "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1200&q=80"),
+            (
+                "Modern Hospital",
+                "A welcoming hospital environment.",
+                "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1200&q=80",
+            ),
+            (
+                "Medical Consultation",
+                "A doctor consulting with a patient.",
+                "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
+            ),
+            (
+                "Healthcare Team",
+                "Healthcare professionals working together.",
+                "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1200&q=80",
+            ),
         ]
 
         for title, description, image_url in gallery_items:
@@ -90,6 +105,7 @@ class Command(BaseCommand):
 
         patient = User.objects.filter(username="rahul.demo").first()
         doctor = Doctor.objects.filter(name="Aarav Sharma").first()
+
         if patient and doctor:
             Appointment.objects.get_or_create(
                 patient=patient,
@@ -103,4 +119,4 @@ class Command(BaseCommand):
             )
 
         self.stdout.write(self.style.SUCCESS("Accord-HMS demo data created successfully."))
-        self.stdout.write("Demo patient password: Demo@1234")
+        self.stdout.write(f"Demo patient password: {demo_password}")
