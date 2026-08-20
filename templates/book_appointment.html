@@ -3,36 +3,42 @@
 {% block title %}Book Appointment | Accord-HMS{% endblock %}
 
 {% block content %}
+<section class="page-hero compact-hero">
+    <div class="container">
+        <span class="eyebrow">PATIENT APPOINTMENTS</span>
+        <h1>Book an Appointment</h1>
+        <p>Choose your doctor, date and time for a convenient consultation.</p>
+    </div>
+</section>
+
 <section class="py-5">
     <div class="container">
-        <div class="section-title text-center">
-            <h1>Book an Appointment</h1>
-            <p>Choose a doctor and select a convenient date and time.</p>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="col-md-7">
-                <div class="form-card">
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-4">
+                <div class="booking-info">
+                    <div class="service-icon">✓</div>
+                    <span class="eyebrow">SIMPLE & SECURE</span>
+                    <h2>Your care, scheduled simply.</h2>
+                    <p>Complete the form and your appointment will be saved to your Accord-HMS patient record.</p>
+                    <div class="booking-step"><strong>01</strong><span>Select your doctor</span></div>
+                    <div class="booking-step"><strong>02</strong><span>Choose date & time</span></div>
+                    <div class="booking-step"><strong>03</strong><span>Confirm appointment</span></div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="form-card polished-form-card">
+                    <div class="form-card-heading"><span class="eyebrow">APPOINTMENT DETAILS</span><h2>Schedule your visit</h2></div>
                     <form method="post">
                         {% csrf_token %}
-
-                        {% if form.non_field_errors %}
-                        <div class="alert alert-danger">
-                            {{ form.non_field_errors|striptags }}
-                        </div>
-                        {% endif %}
-
+                        {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors|striptags }}</div>{% endif %}
                         {% for field in form %}
                         <div class="mb-3">
                             <label class="form-label">{{ field.label }}</label>
                             {{ field }}
-                            {% if field.errors %}
-                            <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
-                            {% endif %}
+                            {% if field.errors %}<div class="text-danger small mt-1">{{ field.errors|striptags }}</div>{% endif %}
                         </div>
                         {% endfor %}
-
-                        <button type="submit" class="btn btn-primary w-100">Confirm Appointment</button>
+                        <button type="submit" class="btn btn-primary w-100 btn-lg">Confirm Appointment</button>
                     </form>
                 </div>
             </div>
