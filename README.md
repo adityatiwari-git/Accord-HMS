@@ -1,26 +1,26 @@
 # Accord-HMS 🏥
 
-**Accord-HMS (Hospital Appointment & Management System)** is a Django-based academic project for managing basic hospital information, patient accounts, doctors, departments and appointments through a simple web interface.
+**Accord-HMS (Hospital Appointment & Management System)** is a Django-based academic project developed to manage basic hospital information, patient accounts, doctors, departments and appointments through a simple web interface.
 
-The project is designed with a clean and understandable structure so that the code and workflow can be easily explained during a project demonstration or viva.
+The project is intentionally built with a **simple and understandable Django structure** so that the code, database flow and application workflow can be explained clearly during a project demonstration or viva.
 
 ---
 
 ## 📌 Project Overview
 
-Accord-HMS provides two main experiences:
+Accord-HMS provides three main areas of functionality:
 
-- **Visitors** can explore the hospital, doctors, departments and gallery, and send enquiries through the contact form.
+- **Visitors** can explore the hospital, doctors, departments and gallery, and submit enquiries through the contact form.
 - **Registered patients** can create an account, log in, manage their profile, book appointments and view or cancel their appointments.
-- **Hospital administrators** can manage hospital data through the Django admin panel.
+- **Hospital administrators** can manage hospital records through Django's built-in admin panel.
 
-The project focuses on the practical implementation of Django fundamentals rather than unnecessary complexity.
+The project focuses on practical Django fundamentals rather than unnecessary complexity.
 
 ---
 
 ## ✨ Features
 
-### Patient Features
+### 👤 Patient Features
 
 - User registration and login
 - Secure logout
@@ -29,10 +29,10 @@ The project focuses on the practical implementation of Django fundamentals rathe
 - Appointment booking
 - Appointment history
 - Appointment cancellation
-- Appointment date/time validation
+- Appointment date and time validation
 - Prevention of duplicate active appointments for the same doctor and time
 
-### Hospital Features
+### 🏥 Hospital Features
 
 - Doctors listing
 - Individual doctor profiles
@@ -40,17 +40,19 @@ The project focuses on the practical implementation of Django fundamentals rathe
 - Individual department details
 - Gallery section
 - Contact/enquiry form
-- Django admin panel for managing hospital information
+- Django admin panel for hospital data management
 - Demo data generation command
 
-### UI & Design
+### 🎨 UI & Design
 
 - Responsive Bootstrap 5 interface
 - Custom CSS styling
-- Hospital-themed colour palette
-- Accord-HMS logo in the navigation and footer
-- Custom favicon/browser tab icon
-- Responsive navigation for smaller screens
+- Professional hospital-themed colour palette
+- Accord-HMS custom logo
+- Custom browser favicon
+- Responsive navigation
+- Hospital and doctor-focused visual design
+- Separate dashboard and profile experience for logged-in patients
 
 ---
 
@@ -58,11 +60,12 @@ The project focuses on the practical implementation of Django fundamentals rathe
 
 | Area | Technology |
 |---|---|
-| Backend | Python, Django |
+| Programming Language | Python |
+| Backend Framework | Django |
 | Frontend | HTML, CSS, Bootstrap 5, JavaScript |
 | Database | SQLite (development) |
-| Version Control | Git, GitHub |
-| Development | Visual Studio Code |
+| Version Control | Git & GitHub |
+| Code Editor | Visual Studio Code |
 
 ---
 
@@ -70,13 +73,13 @@ The project focuses on the practical implementation of Django fundamentals rathe
 
 ```text
 Accord-HMS/
-├── accounts/                  # Authentication, dashboard and profile-related views
+├── accounts/                  # Registration, authentication, dashboard and profile
 ├── config/                    # Django project configuration and settings
-├── hospital/                  # Hospital models, forms, views, tests and management commands
+├── hospital/                  # Hospital models, forms, views, tests and commands
 ├── static/
-│   ├── css/                   # Custom stylesheet
-│   └── images/                # Accord-HMS logo and favicon assets
-├── templates/                 # HTML templates for the website
+│   ├── css/                   # Custom stylesheets
+│   └── images/                # Logo, favicon and visual assets
+├── templates/                 # HTML templates
 ├── manage.py                  # Django management script
 ├── requirements.txt           # Python dependencies
 ├── .gitignore                 # Files excluded from Git
@@ -110,7 +113,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-> Create a fresh `.venv` on each computer. Do not copy the virtual environment from another operating system.
+> Create a fresh `.venv` on each computer. Do not copy a Windows virtual environment to Ubuntu/Linux or vice versa.
 
 ### 3. Install dependencies
 
@@ -142,21 +145,23 @@ python manage.py check
 python manage.py runserver
 ```
 
-Open:
+Open the website at:
 
 ```text
 http://127.0.0.1:8000/
 ```
 
----
-
-## 🏥 Adding Hospital Data
-
-Hospital data can be managed through the Django admin panel:
+Admin panel:
 
 ```text
 http://127.0.0.1:8000/admin/
 ```
+
+---
+
+## 🏥 Hospital Data
+
+Hospital records can be managed through the Django admin panel.
 
 ### Recommended Departments
 
@@ -170,13 +175,13 @@ For a demonstration, the following departments can be added:
 - Dermatology
 - General Surgery
 
-Doctors can then be created and assigned to their respective departments. Enable **Available** for doctors who should appear as available for appointments.
+Doctors can then be created and assigned to their respective departments. Doctors marked as **Available** can be selected for appointments.
 
 ---
 
 ## 🌱 Demo Data
 
-Accord-HMS includes a simple Django management command for creating demonstration data.
+Accord-HMS includes a simple Django management command for generating demonstration data.
 
 Run:
 
@@ -184,12 +189,12 @@ Run:
 python manage.py seed_demo
 ```
 
-The command creates sample hospital data such as:
+The command can create sample:
 
 - Departments
 - Doctors
 - Seven demo patients
-- A sample appointment
+- Appointment data
 - Gallery entries
 
 The command is designed to avoid unnecessary duplicate demo records when it is run again. The demo patient password is displayed by the command after it completes.
@@ -199,25 +204,25 @@ The command is designed to avoid unnecessary duplicate demo records when it is r
 ## 🔄 Application Workflow
 
 ```text
-                    ACCORD-HMS
-                        │
-          ┌─────────────┴─────────────┐
-          │                           │
-       Visitor                    Patient
-          │                           │
-    ┌─────┼─────┐             Create Account
-    │     │     │                    │
- Doctors Departments Gallery      Login
-    │     │     │                    │
-    └─────┴─────┘               Dashboard
-          │                           │
-       Contact                  Book Appointment
-                                      │
-                              My Appointments
-                                 │         │
-                              View       Cancel
-                                      │
-                                   Profile
+                         ACCORD-HMS
+                              │
+                ┌─────────────┴─────────────┐
+                │                           │
+             Visitor                     Patient
+                │                           │
+       ┌────────┼────────┐            Create Account
+       │        │        │                  │
+    Doctors Departments Gallery           Login
+       │        │        │                  │
+       └────────┴────────┘              Dashboard
+                                            │
+                                     Book Appointment
+                                            │
+                                    My Appointments
+                                      │           │
+                                    View        Cancel
+                                            │
+                                         Profile
 ```
 
 ---
@@ -226,7 +231,7 @@ The command is designed to avoid unnecessary duplicate demo records when it is r
 
 ### 1. Accounts
 
-Handles patient authentication and account-related functionality:
+Responsible for patient account functionality:
 
 - Registration
 - Login
@@ -236,44 +241,45 @@ Handles patient authentication and account-related functionality:
 
 ### 2. Hospital
 
-Handles the main hospital functionality:
+Responsible for the main hospital functionality:
 
 - Doctors
 - Departments
 - Appointments
 - Gallery
 - Contact messages
-- Hospital-related forms and validation
+- Forms and validation
+- Demo data generation
 
 ### 3. Admin
 
-Django's built-in admin interface is used to manage hospital records without creating a separate complex administration system.
+Accord-HMS uses Django's built-in admin interface to manage hospital records without creating an unnecessarily complex custom administration system.
 
 ---
 
 ## 🧪 Testing
 
-The project contains automated Django tests for important application behaviour.
+The project contains automated Django tests for important application behaviour, including authentication, protected pages, hospital pages, appointment creation and appointment-related validation/actions.
 
-Run:
+Run the test suite with:
 
 ```bash
 python manage.py test
 ```
 
-Before submission, the project should also be checked with:
+Also run the Django system check:
 
 ```bash
 python manage.py check
 ```
 
-The tests cover areas such as page access, authentication, doctor and hospital pages, appointment creation, appointment validation and appointment-related actions.
+Both commands should complete successfully before submitting or demonstrating the project.
 
 ---
 
 ## 🔄 GitHub Development Workflow
 
-The project is maintained on GitHub so it can be accessed from different computers.
+The project is maintained on GitHub so the source code can be accessed from different computers.
 
 ### Before starting work
 
@@ -289,22 +295,23 @@ git commit -m "Describe your changes"
 git push origin main
 ```
 
-When moving the project to another computer using a pendrive, copy the source code but create a new virtual environment and install the dependencies from `requirements.txt`.
+When moving the project to another computer using a pendrive, copy the project source code but create a **new virtual environment** and install dependencies using `requirements.txt`.
 
 ---
 
 ## 📋 Project Status
 
-The main academic workflow of Accord-HMS is implemented:
+The main academic workflow of Accord-HMS has been completed and tested:
 
-- ✅ Authentication
-- ✅ Registration and login
+- ✅ User registration
+- ✅ Login and logout
 - ✅ Patient dashboard
 - ✅ Patient profile
-- ✅ Doctors and doctor profiles
+- ✅ Doctors listing and profiles
 - ✅ Departments and department details
 - ✅ Appointment booking
 - ✅ Appointment validation
+- ✅ Duplicate appointment prevention
 - ✅ Appointment cancellation
 - ✅ Gallery
 - ✅ Contact form
@@ -312,15 +319,17 @@ The main academic workflow of Accord-HMS is implemented:
 - ✅ Demo data command
 - ✅ Automated tests
 - ✅ Responsive Bootstrap UI
-- ✅ Accord-HMS logo and favicon
+- ✅ Accord-HMS logo
+- ✅ Browser favicon
+- ✅ GitHub repository documentation
 
-The project is ready for final documentation, screenshots, presentation and academic submission.
+**Current stage: Ready for final screenshots, project report, presentation and academic submission.**
 
 ---
 
 ## 🚀 Future Scope
 
-The current project is intentionally kept simple for academic use. Possible future improvements include:
+The current implementation is intentionally kept simple for academic use. Possible future improvements include:
 
 - Email or SMS appointment notifications
 - Doctor-side dashboard
@@ -328,7 +337,7 @@ The current project is intentionally kept simple for academic use. Possible futu
 - Prescription management
 - Patient medical history
 - Role-based access for doctors and hospital staff
-- PostgreSQL deployment for production use
+- PostgreSQL for production deployment
 - Online hosting and deployment
 
 ---
@@ -342,4 +351,6 @@ B.Tech Bioinformatics Student | Django & Web Development Learner
 
 ## 📄 Academic Note
 
-Accord-HMS is developed as an academic and practical project to learn and demonstrate the development of a Django-based hospital management and appointment system using Python, HTML, CSS, Bootstrap and JavaScript.
+Accord-HMS is developed as an academic and practical project to learn and demonstrate the development of a Django-based hospital appointment and management system using Python, HTML, CSS, Bootstrap and JavaScript.
+
+The project is suitable for academic demonstration and can be extended with additional hospital-management features in the future.
