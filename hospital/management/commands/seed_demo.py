@@ -1,7 +1,8 @@
-from datetime import date, timedelta
+from datetime import timedelta
 
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 
 from hospital.models import Appointment, Department, Doctor, Gallery, Profile
 
@@ -110,7 +111,7 @@ class Command(BaseCommand):
             Appointment.objects.get_or_create(
                 patient=patient,
                 doctor=doctor,
-                appointment_date=date.today() + timedelta(days=3),
+                appointment_date=timezone.localdate() + timedelta(days=3),
                 appointment_time="10:00",
                 defaults={
                     "reason": "Routine consultation",
