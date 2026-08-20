@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Dr. {{ doctor.name }} | Accord-HMS{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="feature-card text-center">
+                    <div class="doctor-avatar mx-auto mb-3">Dr</div>
+                    <h1>Dr. {{ doctor.name }}</h1>
+                    <p class="text-primary fw-semibold">{{ doctor.department.name }}</p>
+                    <p><strong>Qualification:</strong> {{ doctor.qualification }}</p>
+                    <p><strong>Experience:</strong> {{ doctor.experience }} year{{ doctor.experience|pluralize }}</p>
+                    {% if doctor.email %}
+                    <p><strong>Email:</strong> {{ doctor.email }}</p>
+                    {% endif %}
+                    {% if doctor.phone %}
+                    <p><strong>Phone:</strong> {{ doctor.phone }}</p>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'book_doctor' doctor.id %}" class="btn btn-primary mt-2">Book Appointment</a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary mt-2">Login to Book</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
