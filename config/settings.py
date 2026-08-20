@@ -1,7 +1,8 @@
 """
 Django settings for the Accord-HMS project.
 
-This file contains the basic settings needed to run the project locally.
+This file contains the basic settings needed to run the project locally
+and the small amount of configuration required for Vercel deployment.
 """
 
 import os
@@ -10,16 +11,19 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Use an environment variable for the secret key when available.
-# The fallback keeps the student project easy to run locally.
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
     "django-insecure-development-key",
 )
 
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() == "true"
 
-ALLOWED_HOSTS = []
+# Vercel provides the deployment hostname through VERCEL_URL.
+# Local development continues to work with an empty/default host list.
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+vercel_url = os.environ.get("VERCEL_URL")
+if vercel_url:
+    ALLOWED_HOSTS.append(vercel_url)
 
 
 INSTALLED_APPS = [
@@ -62,14 +66,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -86,12 +88,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True
 
-
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
