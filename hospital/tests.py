@@ -58,6 +58,7 @@ class HospitalTests(TestCase):
     def test_logged_in_user_can_book_future_appointment(self):
         self.client.login(username="testuser", password="testpass123")
         future_date = timezone.localdate() + timedelta(days=2)
+
         response = self.client.post(
             reverse("book_appointment"),
             {
@@ -67,8 +68,54 @@ class HospitalTests(TestCase):
                 "reason": "Routine check-up",
             },
         )
+
         self.assertRedirects(response, reverse("appointments"))
         self.assertEqual(Appointment.objects.count(), 1)
+
+    def test_duplicate_appointment_is_not_allowed(self):
+        future_date = timezone.localdate() + timedelta(days=2)
+        Appointment.objects.create(
+            patient=self.user,
+            doctor=self.doctor,
+            appointment_date=future_date,
+            appointment_time="10:00",
+            reason="First appointment",
+            status="Confirmed",
+        )
+
+        self.client.login(username="testuser", password="testpass123")
+        response = self.client.post(
+            reverse("book_appointment"),
+            {
+                "doctor": self.doctor.id,
+                "appointment_date": future_date,
+                "appointment_time": "10:00",
+                "reason": "Second appointment",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Appointment.objects.count(), 1)
+        self.assertContains(response, "already has an appointment")
+
+    def test_user_can_cancel_appointment(self):
+        appointment = Appointment.objects.create(
+            patient=self.user,
+            doctor=self.doctor,
+            appointment_date=timezone.localdate() + timedelta(days=2),
+            appointment_time="11:00",
+            reason="Routine check-up",
+            status="Pending",
+        )
+
+        self.client.login(username="testuser", password="testpass123")
+        response = self.client.post(
+            reverse("cancel_appointment", args=[appointment.id])
+        )
+
+        appointment.refresh_from_db()
+        self.assertRedirects(response, reverse("appointments"))
+        self.assertEqual(appointment.status, "Cancelled")
 
     def test_contact_and_profile_pages_require_expected_access(self):
         self.assertEqual(self.client.get(reverse("contact")).status_code, 200)
