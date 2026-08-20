@@ -1,42 +1,48 @@
 # Accord-HMS 🏥
 
-**Accord-HMS** is a modern Hospital Appointment & Management System built as a Django web application. The project is designed to provide a clean and simple interface for managing hospital-related information and appointment workflows.
+**Accord-HMS** is a simple Hospital Appointment & Management System built with Django. It is an academic project focused on hospital information, patient accounts, doctor discovery and appointment management.
 
 ## 🚀 Project Overview
 
-Accord-HMS is being developed as a practical full-stack web development project using Django. It focuses on creating a user-friendly hospital management experience while keeping the codebase simple, organized, and easy to understand.
+Accord-HMS provides a single web interface where visitors can explore hospital departments and doctors, while registered patients can create an account, book appointments, manage their profile and track their appointments.
 
-## ✨ Features
+The project intentionally uses a straightforward Django structure so that the code is easy to understand, maintain and demonstrate as a student project.
 
-- 🏠 Hospital landing/home page
-- 👨‍⚕️ Doctors section
-- 🏥 Hospital departments
-- 📅 Appointment booking workflow
+## ✨ Main Features
+
+- 🏠 Hospital landing page
+- 👨‍⚕️ Doctors listing and individual doctor profiles
+- 🏥 Departments listing and department details
+- 📅 Appointment booking
+- ⏰ Future date and time validation
+- 🚫 Prevention of duplicate active appointments for the same doctor and time
 - 🔐 User registration and login
-- 👤 User profile and dashboard
-- 🖼️ Hospital gallery
-- 📞 Contact section
-- ⚙️ Django administration for managing project data
-- 📱 Responsive interface using Bootstrap
-- 🎨 Custom styling with CSS
+- 👤 Patient profile
+- 📊 Patient dashboard with appointment statistics
+- ❌ Appointment cancellation
+- 🖼️ Gallery with admin-managed entries and image URL support
+- 📞 Contact form with database storage
+- ⚙️ Django admin panel for hospital data management
+- 📱 Responsive Bootstrap interface
+- 🎨 Custom CSS styling
 
 ## 🛠️ Tech Stack
 
 - **Backend:** Python, Django
-- **Frontend:** HTML, CSS, Bootstrap, JavaScript
-- **Database:** SQLite (development)
+- **Frontend:** HTML, CSS, Bootstrap 5, JavaScript
+- **Database:** SQLite for development
 - **Version Control:** Git & GitHub
 
 ## 📁 Project Structure
 
 ```text
 Accord-HMS/
-├── accounts/          # User authentication and account-related functionality
+├── accounts/          # Registration, login, logout and dashboard routing
 ├── config/            # Django project configuration
-├── hospital/          # Main hospital application
-├── static/            # CSS and other static assets
+├── hospital/          # Main hospital application, models, forms and views
+├── static/css/        # Custom stylesheet
 ├── templates/         # HTML templates
-├── manage.py          # Django management script
+├── manage.py           # Django management script
 ├── requirements.txt   # Python dependencies
 ├── .gitignore         # Ignored files and folders
 └── README.md          # Project documentation
@@ -67,6 +73,8 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
+Do not copy the `.venv` folder from another computer. Create a fresh environment on each system.
+
 ### 3. Install dependencies
 
 ```bash
@@ -79,35 +87,84 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 
-### 5. Run the development server
-
-```bash
-python manage.py runserver
-```
-
-Open the local server shown in the terminal, usually:
-
-```text
-http://127.0.0.1:8000/
-```
-
-## 🔑 Admin Panel
-
-To create an administrator account:
+### 5. Create an admin account
 
 ```bash
 python manage.py createsuperuser
 ```
 
-Then open:
+### 6. Start the development server
+
+```bash
+python manage.py runserver
+```
+
+Open the address shown by Django, normally:
+
+```text
+http://127.0.0.1:8000/
+```
+
+## ⚙️ Adding Hospital Data
+
+Departments and doctors are managed through the Django admin panel.
+
+Open:
 
 ```text
 http://127.0.0.1:8000/admin/
 ```
 
+Recommended demo departments:
+
+- Cardiology
+- Neurology
+- Orthopedics
+- Pediatrics
+- General Medicine
+- Dermatology
+
+After creating departments, add doctors and assign each doctor to a department. Keep **Available** enabled for doctors who should appear on the public booking pages.
+
+### Gallery
+
+Gallery entries can also be added from the admin panel. The current model supports an image URL, so pictures can be added later without changing the project structure.
+
+## 🔑 Application Flow
+
+```text
+Visitor
+  ↓
+Home → Doctors / Departments / Gallery / Contact
+  ↓
+Create Account / Login
+  ↓
+Patient Dashboard
+  ↓
+Book Appointment
+  ↓
+My Appointments → Track / Cancel
+  ↓
+Profile → Update Patient Information
+```
+
+## 🧪 Testing
+
+Basic Django tests are included in `hospital/tests.py`.
+
+Run them with:
+
+```bash
+python manage.py test
+```
+
+The tests cover important parts of the project such as page loading, doctor listing, login redirection, appointment validation and appointment creation.
+
 ## 🔄 Development Workflow
 
-The project is maintained using Git and GitHub so development can continue across different systems.
+The project is maintained using Git and GitHub so it can be continued from different systems.
+
+Before starting work on another computer:
 
 ```bash
 git pull origin main
@@ -121,23 +178,24 @@ git commit -m "Describe your changes"
 git push origin main
 ```
 
-When moving the project to another operating system, create a new virtual environment and install the dependencies from `requirements.txt` instead of copying the existing `.venv` folder.
+If you move the project using a pendrive, copy the project files but create a fresh `.venv` and install the dependencies using `requirements.txt`.
 
-## 📌 Current Status
+## 📌 Project Status
 
-The core project structure, authentication pages, dashboard, profile functionality, navigation, gallery, and other initial hospital-management components are under development. More hospital-specific features and UI improvements will be added as the project progresses.
+The main Accord-HMS workflow is complete for the academic project:
 
-## 🎯 Future Improvements
+- Authentication is working.
+- Navigation and main pages are connected.
+- Doctors and departments have public detail pages.
+- Patients can book, view and cancel appointments.
+- Patient profiles and dashboard are available.
+- Appointment validation is implemented.
+- Contact messages are stored in the database.
+- Gallery entries can be managed through admin.
+- Hospital data can be managed through Django admin.
+- Basic automated tests are included.
 
-- Complete doctor management
-- Complete department management
-- Appointment management and status tracking
-- Improved patient dashboard
-- Doctor profiles
-- Admin-side management features
-- Gallery image management
-- Better validation and user feedback
-- UI and accessibility improvements
+The gallery can remain empty until final presentation data and images are added.
 
 ## 👨‍💻 Author
 
