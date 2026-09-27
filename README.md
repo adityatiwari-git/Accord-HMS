@@ -6,6 +6,11 @@ The project is intentionally built with a **simple and understandable Django str
 
 ---
 
+
+<a href="https://accord-5a8te6xzk-as-projects-dae03da6.vercel.app/" target="_blank">
+  <img src="https://img.shields.io/badge/🚀%20Live%20Project-Accord--HMS-12304a?style=for-the-badge" alt="Live Project">
+</a>
+
 ## 📌 Project Overview
 
 Accord-HMS provides three main areas of functionality:
