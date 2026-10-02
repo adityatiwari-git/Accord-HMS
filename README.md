@@ -359,3 +359,23 @@ B.Tech Bioinformatics Student | Django & Web Development Learner
 Accord-HMS is developed as an academic and practical project to learn and demonstrate the development of a Django-based hospital appointment and management system using Python, HTML, CSS, Bootstrap and JavaScript.
 
 The project is suitable for academic demonstration and can be extended with additional hospital-management features in the future.
+
+## 🤖 Scheduled Project Maintenance
+
+This repository has its own GitHub Actions maintenance workflow. It is **repository-local**, so it uses GitHub's built-in `GITHUB_TOKEN` instead of a personal access token or cross-repository secret.
+
+### What the `.github/` folder is for
+
+- `.github/workflows/daily-maintenance.yml` — runs the scheduled maintenance workflow.
+- `.github/maintenance/schedule.json` — stores this repository's assigned dates and task names.
+- `.github/maintenance/run_task.py` — contains the simple, predefined task logic.
+
+The workflow runs at **09:00 IST (03:30 UTC)** and can also be started manually.
+
+Assigned October 2026 dates:
+- 2026-10-10
+- 2026-10-20
+
+> **No meaningful change = no commit and no pull request.**
+
+The workflow does not use Claude, OpenAI, or another external AI coding service.
