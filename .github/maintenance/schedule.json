@@ -1,0 +1,10 @@
+{
+  "2026-10-10": {
+    "task_id": "development_workflow",
+    "description": "Add a simple Django development workflow for Accord-HMS."
+  },
+  "2026-10-20": {
+    "task_id": "testing_notes",
+    "description": "Document the existing Django check and test commands."
+  }
+}
