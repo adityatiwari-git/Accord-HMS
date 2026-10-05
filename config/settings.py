@@ -69,10 +69,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+DATABASE_PATH = BASE_DIR / "db.sqlite3"
+
+# Vercel functions run from a read-only deployment directory. SQLite cannot
+# create or update a database there, so the demo database is placed in /tmp.
+# The database is temporary on Vercel and is recreated when a new instance
+# starts; local development continues to use the normal project database.
+if os.environ.get("VERCEL") or vercel_url:
+    DATABASE_PATH = Path("/tmp/accord_hms.sqlite3")
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": DATABASE_PATH,
     }
 }
 
