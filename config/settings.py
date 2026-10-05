@@ -1,12 +1,13 @@
 """
 Django settings for the Accord-HMS project.
 
-This file contains the basic settings needed to run the project locally
-and the small amount of configuration required for Vercel deployment.
+The project uses SQLite for local development and PostgreSQL when a
+DATABASE_URL is supplied by the deployment environment.
 """
 
 import os
 from pathlib import Path
+from urllib.parse import urlparse
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -18,9 +19,9 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() == "true"
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".vercel.app"]
 vercel_url = os.environ.get("VERCEL_URL")
-if vercel_url:
+if vercel_url and vercel_url not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append(vercel_url)
 
 CSRF_TRUSTED_ORIGINS = []
@@ -69,21 +70,30 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-DATABASE_PATH = BASE_DIR / "db.sqlite3"
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
-# Vercel functions run from a read-only deployment directory. SQLite cannot
-# create or update a database there, so the demo database is placed in /tmp.
-# The database is temporary on Vercel and is recreated when a new instance
-# starts; local development continues to use the normal project database.
-if os.environ.get("VERCEL") or vercel_url:
-    DATABASE_PATH = Path("/tmp/accord_hms.sqlite3")
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": DATABASE_PATH,
+if DATABASE_URL:
+    parsed = urlparse(DATABASE_URL)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": parsed.path.lstrip("/"),
+            "USER": parsed.username,
+            "PASSWORD": parsed.password,
+            "HOST": parsed.hostname,
+            "PORT": parsed.port or 5432,
+            "OPTIONS": {
+                "sslmode": "require",
+            },
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -91,6 +101,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
