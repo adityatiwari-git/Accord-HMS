@@ -1,8 +1,9 @@
 """
 Django settings for the Accord-HMS project.
 
-The project uses SQLite for local development and PostgreSQL when a
-DATABASE_URL is supplied by the deployment environment.
+The project uses SQLite for local development and PostgreSQL in deployment.
+Vercel provides the PostgreSQL connection variable for the production
+environment.
 """
 
 import os
@@ -70,10 +71,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+# Vercel's database integration provides POSTGRES_URL.
+# Additional Vercel PostgreSQL variables are used as fallbacks.
+POSTGRES_URL = (
+    os.environ.get("POSTGRES_URL")
+    or os.environ.get("POSTGRES_PRISMA_URL")
+    or os.environ.get("POSTGRES_URL_NON_POOLING")
+)
 
-if DATABASE_URL:
-    parsed = urlparse(DATABASE_URL)
+if POSTGRES_URL:
+    parsed = urlparse(POSTGRES_URL)
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
