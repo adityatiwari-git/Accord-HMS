@@ -2,8 +2,8 @@
 Django settings for the Accord-HMS project.
 
 The project uses SQLite for local development and PostgreSQL in deployment.
-Vercel provides the PostgreSQL connection variable for the production
-environment.
+Vercel provides the PostgreSQL connection variables through the Supabase
+integration.
 """
 
 import os
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.sessions.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -71,8 +71,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-# Vercel's database integration provides POSTGRES_URL.
-# Additional Vercel PostgreSQL variables are used as fallbacks.
+# Vercel's Supabase integration exposes a PostgreSQL connection URL.
+# POSTGRES_URL is preferred; the other URL variants are fallbacks.
 POSTGRES_URL = (
     os.environ.get("POSTGRES_URL")
     or os.environ.get("POSTGRES_PRISMA_URL")
@@ -94,7 +94,15 @@ if POSTGRES_URL:
             },
         }
     }
+elif os.environ.get("VERCEL"):
+    # Never silently fall back to SQLite on Vercel. A missing PostgreSQL
+    # variable means the Supabase/Vercel integration is not available.
+    raise RuntimeError(
+        "Accord-HMS requires POSTGRES_URL, POSTGRES_PRISMA_URL, or "
+        "POSTGRES_URL_NON_POOLING on Vercel."
+    )
 else:
+    # SQLite remains convenient for local development.
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -108,6 +116,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
