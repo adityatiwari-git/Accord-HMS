@@ -282,17 +282,57 @@ Both commands should complete successfully before submitting or demonstrating th
 
 ---
 
-## 🔄 GitHub Development Workflow
+## 🔄 Development Workflow
 
-The project is maintained on GitHub so the source code can be accessed from different computers.
+A simple local workflow is used to keep development and verification consistent across machines.
 
-### Before starting work
+### Start a development session
 
 ```bash
 git pull origin main
+python -m venv .venv
 ```
 
-### After making changes
+Activate the virtual environment and install the project dependencies:
+
+**Windows:**
+
+```bash
+.venv\\Scripts\\activate
+pip install -r requirements.txt
+```
+
+**Ubuntu/Linux:**
+
+```bash
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Apply migrations when needed:
+
+```bash
+python manage.py migrate
+```
+
+### Verify changes
+
+Before demonstrating or submitting the project, run:
+
+```bash
+python manage.py check
+python manage.py test
+```
+
+Then start the development server:
+
+```bash
+python manage.py runserver
+```
+
+### Save work to GitHub
+
+After making and verifying changes:
 
 ```bash
 git add .
@@ -300,7 +340,7 @@ git commit -m "Describe your changes"
 git push origin main
 ```
 
-When moving the project to another computer using a pendrive, copy the project source code but create a **new virtual environment** and install dependencies using `requirements.txt`.
+When moving the project to another computer, copy the source code, create a fresh virtual environment, and install dependencies from `requirements.txt` rather than copying the existing environment.
 
 ---
 
